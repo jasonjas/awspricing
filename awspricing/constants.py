@@ -11,6 +11,7 @@ class Enum(object):
     Years = Enum(one_year='1yr')  # Years.ONE_YEAR == '1yr'
     ```
     """
+
     def __init__(self, *args, **kwargs):  # type: (*str, **str) -> None
         self._values = {}  # type: Dict[str, str]
         for arg in args:
@@ -35,17 +36,21 @@ REGION_SHORTS = {
     'us-west-1': 'US West (N. California)',
     'us-west-2': 'US West (Oregon)',
     'ca-central-1': 'Canada (Central)',
+    'eu-north-1': 'EU (Stockholm)',
     'eu-west-1': 'EU (Ireland)',
     'eu-central-1': 'EU (Frankfurt)',
     'eu-west-2': 'EU (London)',
+    'eu-west-3': 'EU (Paris)',
     'ap-northeast-1': 'Asia Pacific (Tokyo)',
     'ap-northeast-2': 'Asia Pacific (Seoul)',
+    'ap-northeast-3': 'Asia Pacific (Osaka-Local)',
     'ap-southeast-1': 'Asia Pacific (Singapore)',
     'ap-southeast-2': 'Asia Pacific (Sydney)',
     'ap-south-1': 'Asia Pacific (Mumbai)',
-    'sa-east-1': 'South America (Sao Paulo)',  # intentionally no unicode
+    'sa-east-1': 'South America (Sao Paulo)',  # intentionally no unicode,
+    'us-gov-west-1': 'AWS GovCloud (US)',
+    'us-gov-east-1': 'AWS GovCloud (US-East)'
 }
-
 
 EC2_LEASE_CONTRACT_LENGTH = Enum(one_year='1yr', three_year='3yr')
 EC2_OFFERING_CLASS = Enum('standard', 'convertible')
@@ -61,4 +66,28 @@ RDS_PURCHASE_OPTION = Enum(
     no_upfront='No Upfront',
     partial_upfront='Partial Upfront',
     all_upfront='All Upfront'
+)
+
+EBS_PRODUCT_FAMILY = Enum(
+    iops='System Operation',
+    data='Storage'
+)
+EBS_STORAGE_MEDIA = Enum(
+    hdd='HDD-backed',
+    ssd='SSD-backed'
+)
+EBS_VOLUME_API_NAME = ['io1',
+    'io2',
+    'gp2',
+    'gp3',
+    'standard',
+    'sc1']
+
+SNAPSHOT_STORAGE_MEDIA = 'Amazon S3'
+SNAPSHOT_PRODUCT_FAMILY = 'Storage Snapshot'
+SNAPSHOT_USAGE_TYPE = Enum(
+    archive_early_delete='EBS:SnapshotArchiveEarlyDelete',
+    snapshot_usage='EBS:SnapshotUsage',
+    archive_retrieval='EBS:SnapshotArchiveRetrieval',
+    usage_under_billing='EBS:SnapshotUsageUnderBilling'
 )

@@ -152,7 +152,7 @@ class EC2Offer(AWSOffer):
         self.default_capacity_status = 'Used'
 
         self._reverse_sku = self._generate_reverse_sku_mapping(
-            'instanceType', 'operatingSystem', 'tenancy', 'licenseModel',
+            'instanceType', 'usagetype', 'tenancy', 'licenseModel',
             'preInstalledSw', 'location', 'capacitystatus',
             # Both families are queried assuming that instance names will never clash between
             # them. This should be true given metal instance naming conventions thus far (instance

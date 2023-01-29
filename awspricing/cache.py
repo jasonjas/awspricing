@@ -3,15 +3,15 @@ import json
 import logging
 import re
 import time
-
+import tempfile
 
 _USE_CACHE = None
 _CACHE_PATH = None
 _CACHE_MINUTES = None
 
 
-DEFAULT_USE_CACHE = '0'  # False
-DEFAULT_CACHE_PATH = os.path.join('/tmp', 'awspricing')
+DEFAULT_USE_CACHE = '1'  # False
+DEFAULT_CACHE_PATH = os.path.join(tempfile.gettempdir(), 'awspricing')
 DEFAULT_CACHE_MINUTES = '1440'  # 1 day
 
 
