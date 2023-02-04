@@ -1,6 +1,7 @@
 import requests
 from requests.adapters import HTTPAdapter
 from typing import Dict, Type  # noqa
+from pathlib import PurePosixPath
 
 from .offers import AWSOffer, get_offer_class  # noqa
 from .cache import maybe_read_from_cache, maybe_write_to_cache
@@ -10,7 +11,7 @@ __version__ = "1.1.5"
 
 
 session = requests.Session()
-session.mount('http://', HTTPAdapter(max_retries=5))
+#session.mount('http://', HTTPAdapter(max_retries=5))
 session.mount('https://', HTTPAdapter(max_retries=5))
 
 
@@ -58,12 +59,15 @@ def _get_offers():
     return _OFFERS
 
 
-def _fetch_offer(offer_name, version='current'):
+def _fetch_offer(offer_name, region=None, version='current'):
     offers = _get_offers()
     if offer_name not in offers:
         raise ValueError('Unknown offer name: {}'.format(offer_name))
 
-    cache_key = 'offer_{}_{}'.format(offer_name, version)
+    region_text = ''
+    if region is not None:
+        region_text = f'_{region}'
+    cache_key = 'offer_{}_{}{}'.format(offer_name, version, region_text)
     offer = maybe_read_from_cache(cache_key)
     if offer is not None:
         return offer
@@ -78,6 +82,12 @@ def _fetch_offer(offer_name, version='current'):
             raise ValueError('Invalid version specified {}. Must be one of: [{}]'.format(
                 version, ', '.join(sorted(other_versions.keys(), reverse=True))))
 
+    if region is not None:
+        posix_path = PurePosixPath(offer_endpoint)
+        path_list = list(posix_path.parts)
+        path_list.insert(-1, region)
+        offer_endpoint = str(PurePosixPath('').joinpath(*path_list))
+
     resp = session.get(OFFER_BASE_URL + offer_endpoint)
     resp.raise_for_status()
     offer = resp.json()
@@ -90,8 +100,8 @@ def all_service_names():
     return _get_offers().keys()
 
 
-def offer(service_name, version='current'):
+def offer(service_name, region=None, version='current'):
     if service_name not in _SERVICES:
-        offer_data = _fetch_offer(service_name, version=version)
+        offer_data = _fetch_offer(service_name, region=region, version=version)
         _SERVICES[service_name] = get_offer_class(service_name)(offer_data)
     return _SERVICES[service_name]

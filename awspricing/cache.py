@@ -12,7 +12,7 @@ _CACHE_MINUTES = None
 
 DEFAULT_USE_CACHE = '1'  # False
 DEFAULT_CACHE_PATH = os.path.join(tempfile.gettempdir(), 'awspricing')
-DEFAULT_CACHE_MINUTES = '1440'  # 1 day
+DEFAULT_CACHE_MINUTES = '10080'  # 1 day = 1440; 7 days = 10080
 
 
 logger = logging.getLogger(__name__)

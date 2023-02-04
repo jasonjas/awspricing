@@ -76,12 +76,14 @@ EBS_STORAGE_MEDIA = Enum(
     hdd='HDD-backed',
     ssd='SSD-backed'
 )
-EBS_VOLUME_API_NAME = ['io1',
+EBS_VOLUME_API_NAME = [
+    'io1',
     'io2',
     'gp2',
     'gp3',
     'standard',
-    'sc1']
+    'sc1'
+]
 
 SNAPSHOT_STORAGE_MEDIA = 'Amazon S3'
 SNAPSHOT_PRODUCT_FAMILY = 'Storage Snapshot'
